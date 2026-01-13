@@ -3,186 +3,172 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Communication Skills Bank - 50 Questions</title>
+    <title>Communication Skills - Part 1 (1-50)</title>
     <style>
-        :root { --primary: #1a7e94; --bg: #f0f4f8; --white: #ffffff; --success: #2ecc71; --danger: #e74c3c; }
-        body { font-family: 'Segoe UI', Tahoma, sans-serif; background-color: var(--bg); margin: 0; padding: 0; padding-top: 70px; }
+        :root { --primary: #1a7e94; --light-blue: #7dd3fc; --bg: #f0f4f8; --white: #ffffff; --success: #2ecc71; --danger: #e74c3c; --exp-bg: #fff9c4; }
+        body { font-family: 'Segoe UI', Tahoma, sans-serif; background-color: var(--bg); margin: 0; padding: 0; padding-top: 150px; }
         
-        /* العداد المستطيل النحيف بعرض الشاشة */
-        .fixed-stats {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            background: #1a7e94;
-            color: white;
-            height: 55px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.15);
-            z-index: 1000;
-            display: flex;
-            align-items: center;
+        /* العداد العلوي */
+        .fixed-header {
+            position: fixed; top: 0; left: 0; right: 0;
+            background: #f0f4f8; padding: 15px 5px;
+            z-index: 1000; box-shadow: 0 2px 10px rgba(0,0,0,0.1);
         }
-        .stats-container {
-            display: flex;
-            justify-content: space-around;
-            align-items: center;
-            width: 100%;
-            max-width: 1000px;
-            margin: 0 auto;
-            padding: 0 15px;
+        .stats-grid {
+            display: grid; grid-template-columns: repeat(4, 1fr);
+            gap: 10px; max-width: 800px; margin: 0 auto; padding: 0 10px;
         }
-        .stat-item { display: flex; align-items: center; gap: 8px; }
-        .stat-number { font-size: 1.2rem; font-weight: bold; }
-        .stat-label { font-size: 0.8rem; opacity: 0.9; }
+        .stat-card {
+            background: white; border-radius: 10px; padding: 12px 5px;
+            text-align: center; border-bottom: 4px solid var(--primary);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        }
+        .stat-card .lbl { display: block; font-size: 0.65rem; color: #666; margin-bottom: 5px; font-weight: bold; }
+        .stat-card .val { display: block; font-size: 1.2rem; font-weight: bold; color: var(--primary); }
 
         .content-wrapper { display: flex; flex-direction: column; align-items: center; padding: 20px 0; }
         
-        /* البحث */
-        .search-container { width: 90%; max-width: 800px; margin-bottom: 20px; }
-        #searchInput { 
-            width: 100%; padding: 12px 20px; border-radius: 10px; border: 1px solid #ddd; 
-            font-size: 1rem; box-sizing: border-box; text-align: right;
-        }
-        
-        /* الكروت */
         .quiz-card { 
-            background: var(--white); width: 90%; max-width: 800px; border-radius: 12px; 
-            padding: 20px; margin-bottom: 20px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); 
-            position: relative; border-right: 6px solid var(--primary);
+            background: var(--white); width: 92%; max-width: 800px; border-radius: 15px; 
+            padding: 25px; margin-bottom: 25px; box-shadow: 0 5px 15px rgba(0,0,0,0.05); 
+            position: relative; border-right: 8px solid var(--primary);
         }
-        .q-number { 
-            position: absolute; top: 10px; left: 10px; background: #eee; 
-            width: 28px; height: 28px; border-radius: 50%; display: flex; 
-            align-items: center; justify-content: center; font-size: 0.8rem; color: #666;
-        }
-        .question-text { font-size: 1.1rem; font-weight: bold; color: #2c3e50; margin-bottom: 10px; text-align: left; direction: ltr; }
-        .translation-text { background: #f8f9fa; padding: 10px; margin-bottom: 15px; color: #555; font-size: 0.95rem; border-radius: 6px; line-height: 1.4; }
         
-        .options-list { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-        .option-btn { 
-            background: white; border: 1px solid #e0e6ed; padding: 12px; border-radius: 8px; 
-            cursor: pointer; text-align: left; direction: ltr; font-size: 0.95rem; transition: 0.2s;
+        /* تعديل الدائرة اللبني */
+        .q-number { 
+            position: absolute; top: 15px; left: -15px; /* ابعادها عن السؤال */
+            background: var(--light-blue); color: #0369a1;
+            width: 32px; height: 32px; border-radius: 50%; display: flex; 
+            align-items: center; justify-content: center; font-size: 0.9rem; font-weight: bold;
+            box-shadow: 2px 2px 5px rgba(0,0,0,0.1); border: 2px solid white;
         }
-        .option-btn:hover { background: #f1f1f1; }
+
+        .question-text { font-size: 1.1rem; font-weight: bold; color: #2c3e50; margin-bottom: 12px; text-align: left; direction: ltr; padding-left: 20px; }
+        .translation-text { background: #f1f7f9; padding: 12px; margin-bottom: 20px; color: #444; font-size: 0.95rem; border-radius: 8px; border-right: 4px solid var(--primary); }
+        
+        .options-list { display: grid; grid-template-columns: 1fr; gap: 10px; }
+        .option-btn { 
+            background: white; border: 1.5px solid #e0e6ed; padding: 14px; border-radius: 10px; 
+            cursor: pointer; text-align: left; direction: ltr; font-size: 0.9rem; transition: 0.3s;
+            display: flex; flex-direction: column;
+        }
+        .opt-ar { font-size: 0.8rem; color: #666; margin-top: 4px; direction: rtl; text-align: right; width: 100%; }
+        
         .correct-opt { background-color: #d4edda !important; border-color: #28a745 !important; color: #155724 !important; font-weight: bold; }
         .wrong-opt { background-color: #f8d7da !important; border-color: #dc3545 !important; color: #721c24 !important; }
 
-        @media (max-width: 600px) {
-            .options-list { grid-template-columns: 1fr; }
-            .stat-label { display: none; }
-            .stat-number::before { content: attr(data-icon); margin-left: 5px; }
+        .explanation-box {
+            margin-top: 15px; padding: 15px; background-color: var(--exp-bg);
+            border-radius: 10px; border-right: 6px solid #fbc02d;
+            font-size: 0.9rem; color: #333; display: none; line-height: 1.5;
         }
+
+        @media (min-width: 650px) { .options-list { grid-template-columns: 1fr 1fr; } .q-number { left: -20px; } }
     </style>
 </head>
 <body>
 
-    <div class="fixed-stats">
-        <div class="stats-container">
-            <div class="stat-item"><span class="stat-label">الأسئلة:</span><span class="stat-number" id="totalQs" data-icon="📋">0</span></div>
-            <div class="stat-item"><span class="stat-label">تم الحل:</span><span class="stat-number" id="answeredCount" data-icon="📝">0</span></div>
-            <div class="stat-item"><span class="stat-label">صحيح:</span><span class="stat-number" style="color: #4ade80;" id="correctCount" data-icon="✔️">0</span></div>
-            <div class="stat-item"><span class="stat-label">خطأ:</span><span class="stat-number" style="color: #ff6b6b;" id="wrongCount" data-icon="❌">0</span></div>
+    <div class="fixed-header">
+        <div class="stats-grid">
+            <div class="stat-card"><span class="lbl">الأسئلة</span><span class="val" id="totalQs">50</span></div>
+            <div class="stat-card"><span class="lbl">تم الحل</span><span class="val" id="answeredCount">0</span></div>
+            <div class="stat-card"><span class="lbl">صحيح</span><span class="val" style="color: var(--success);" id="correctCount">0</span></div>
+            <div class="stat-card"><span class="lbl">النسبة</span><span class="val" style="color: #e67e22;" id="rate">0%</span></div>
         </div>
     </div>
 
     <div class="content-wrapper">
-        <div class="search-container">
-            <input type="text" id="searchInput" placeholder="ابحث في الأسئلة أو الترجمة..." onkeyup="searchQuestions()">
-        </div>
         <div id="quiz-container" style="width: 100%; display: flex; flex-direction: column; align-items: center;"></div>
     </div>
 
 <script>
 const questions = [
-    { q: "As regards communication, barriers of messages include which of the following?", ar: "فيما يتعلق بالتواصل، تشمل عوائق الرسائل ما يلي:", o: ["Easy messages", "Relevant messages", "Unclear messages", "Complete messages"], c: 2 },
-    { q: "Which of the following is the definition of motivation?", ar: "أي مما يلي هو تعريف التحفيز؟", o: ["Internal force to act", "External force", "Both 1 and 4", "Motivation starts with need"], c: 2 },
-    { q: "As regards the role of the teacher, which of the following is not correct?", ar: "فيما يتعلق بدور المعلم، أي مما يلي غير صحيح؟", o: ["Planner", "Clarifier", "Stimulator", "Volunteer"], c: 3 },
-    { q: "Group approach method of education includes which of the following?", ar: "طريقة نهج المجموعة في التعليم تشمل:", o: ["Television", "Home visit", "Lecture", "Internet"], c: 2 },
-    { q: "As regards, Importance of motivation which of the following is not correct?", ar: "فيما يتعلق بأهمية التحفيز، أي مما يلي غير صحيح؟", o: ["Activate behavior", "Give direction", "Increase productivity", "Passive participation"], c: 3 },
-    { q: "Which is correct for essentials of communication?", ar: "ما هو الصحيح بالنسبة لأساسيات التواصل؟", o: ["Do not react instantly and mutter in anger", "Go to the conclusion", "Interrupt the speaker", "Use medical terminology difficult to be understood"], c: 0 },
-    { q: "Which of the following is considered correct for verbal communication?", ar: "أي مما يلي يعتبر صحيحاً بالنسبة للتواصل اللفظي؟", o: ["Need words for emotions", "Active listening", "Direct questioning", "All of the above"], c: 3 },
-    { q: "Which of the following is the characteristic of nonverbal communication?", ar: "أي مما يلي من خصائص التواصل غير اللفظي؟", o: ["Easy communication", "More reliable than verbal communication", "Do not need observation", "Cannot be use with deaf and mute persons"], c: 1 },
-    { q: "Which is correct for an effective verbal communicator?", ar: "ما هو الصحيح للمتواصل اللفظي الفعال؟", o: ["Encourages empathically", "Depend on eye contact", "Depend on facial expression", "Depend on body language"], c: 0 },
-    { q: "Which of the following are levels of communication?", ar: "أي مما يلي هي مستويات التواصل؟", o: ["Downwards communication", "Upwards communication", "Horizontal communication", "All the above"], c: 3 },
-    { q: "Which of the following are correct for nonverbal communication?", ar: "أي مما يلي صحيح بخصوص التواصل غير اللفظي؟", o: ["Use body language", "Facial expression, eye contact and touch appearance", "Cannot use words", "All the above"], c: 3 },
-    { q: "Risk factors that cause health education problem include:", ar: "عوامل الخطر التي تسبب مشاكل في التثقيف الصحي تشمل:", o: ["Good staff training", "Spend time to interact properly with clients", "Good interest in the subject", "Lack staff training"], c: 3 },
-    { q: "Group approach of health education include which of the following?", ar: "نهج المجموعة في التثقيف الصحي يشمل:", o: ["Internet", "Lectures, workshop and conference", "Home visit", "Television"], c: 1 },
-    { q: "Which of the following are the advantages of group teaching?", ar: "أي مما يلي من مزايا التعليم الجماعي؟", o: ["Include small group only", "Economic and give positive attitude development", "High cost", "Lack of sharing between learners"], c: 1 },
-    { q: "As regards, importance of motivation which of the following is not correct?", ar: "بخصوص أهمية التحفيز، أي مما يلي غير صحيح؟", o: ["Intrinsic force", "Give direction", "Increase productivity", "Extrinsic force"], c: 3 },
-    { q: "....... defined as two way process involving passing messages to and from between sender and receiver?", ar: "تعرف بأنها عملية ذات اتجاهين تتضمن نقل الرسائل بين المرسل والمستقبل؟", o: ["Motivation", "Communication", "Health education code of ethics", "Learning"], c: 1 },
-    { q: "Which of the following is considered correct for nonverbal communication?", ar: "أي مما يلي يعتبر صحيحاً للتواصل غير اللفظي؟", o: ["Need words to express emotions", "Need observation and understanding", "Direct questioning", "Need voice"], c: 1 },
-    { q: "Which of the following is the characteristic of nonverbal communication?", ar: "من خصائص التواصل غير اللفظي:", o: ["Easy communication", "Non reliable than verbal communication", "Do not need observation", "Use body language"], c: 3 },
-    { q: "Which is correct for an effective verbal communicator?", ar: "الصحيح للمتواصل اللفظي الفعال:", o: ["Direct clear questioning", "Depend on eye contact", "Depend on facial expression", "Depend on body language"], c: 0 },
-    { q: "Which of the following is a type of communication?", ar: "أي مما يلي هو نوع من أنواع التواصل؟", o: ["Downwards communication", "Upwards communication", "Horizontal communication", "All the above"], c: 3 },
-    { q: "Which of the following is not correct about the characteristic of good communicator channel?", ar: "أي مما يلي ليس صحيحاً عن خصائص قناة التواصل الجيدة؟", o: ["Appropriate", "Affordable", "Appealing", "Non appropriate channel"], c: 3 },
-    { q: "An effective verbal communicator include:", ar: "المتواصل اللفظي الفعال يشمل:", o: ["Clarifies, listen, acknowledges and repeats", "Relaxes", "Open up", "Eye contact"], c: 0 },
-    { q: "Which of the following are the types of communication?", ar: "ما هي أنواع التواصل؟", o: ["Verbal only", "Nonverbal only", "Intermediate", "Verbal and nonverbal"], c: 3 },
-    { q: "Which of the following are correct for verbal communication?", ar: "أي مما يلي صحيح للتواصل اللفظي؟", o: ["Use body language", "Use words in communication", "Facial expression, eye contact and touch appearance", "Cannot use words"], c: 1 },
-    { q: "Which of the following is not the level of communication?", ar: "أي مما يلي ليس مستوى من مستويات التواصل؟", o: ["Downward communication", "Upwards communication", "Lateral communication", "Vertical communication"], c: 3 },
-    { q: "Which of the following are characters of a good sender message?", ar: "ما هي صفات المرسل الجيد للرسالة؟", o: ["Choose appropriate communication channel", "Be interested in the subjects", "Both 1 and 2", "Lack interest of subject"], c: 2 },
-    { q: "....... is the person to whom messages is directed.", ar: "هو الشخص الذي توجه إليه الرسالة:", o: ["Sender", "Receiver", "Channel", "Messages"], c: 1 },
-    { q: "..... is the final stage that the receiver reply to the sender according to understanding", ar: "هي المرحلة النهائية التي يرد فيها المستقبل على المرسل بناءً على فهمه:", o: ["Sending", "Communication", "Feedback", "Receiving"], c: 2 },
-    { q: "As regards nonverbal communication advantages, which is correct?", ar: "بخصوص مزايا التواصل غير اللفظي، ما هو الصحيح؟", o: ["Need words", "Do not need understanding or interpretation", "More reliable than verbal", "Need high voice"], c: 2 },
-    { q: "All the following are requirements of effective communication except:", ar: "كل ما يلي متطلبات تواصل فعال ما عدا:", o: ["Clear, concise messages", "Relevant messages", "Meaningful messages", "Non relevant messages"], c: 3 },
-    { q: "Criteria of effective nonverbal communicator include:", ar: "معايير المتواصل غير اللفظي الفعال تشمل:", o: ["Use clear voice", "Establish eye contact with appropriate facial expression", "Use words", "Use meaningful speech"], c: 1 },
-    { q: "..... is considered as a barrier of communication:", ar: "يعتبر عائقاً من عوائق التواصل:", o: ["Proper channel", "Improper channel", "Good channel", "Relevant channel"], c: 1 },
-    { q: "Teaching is defined as.......", ar: "يعرف التدريس بأنه:", o: ["Interaction to bring changes in behavior", "Interaction between learners and clients", "Interaction between groups", "Interaction between clients"], c: 0 },
-    { q: "As regard rules of motivation which of the following is correct?", ar: "بخصوص قواعد التحفيز، أي مما يلي صحيح؟", o: ["Do not finish what you start", "Do not socialize", "Take risk and set a major goal", "Do not learn how to learn"], c: 2 },
-    { q: "Which of the following is not a barrier of communication?", ar: "أي مما يلي ليس عائقاً من عوائق التواصل؟", o: ["Lack of interest", "Good language use", "Anxiety", "Impaired visual and auditory channel"], c: 1 },
-    { q: "Which of the following are considered barriers of messages in communication?", ar: "أي مما يلي يعتبر من عوائق الرسائل؟", o: ["Difficult and irrelevant messages", "Very easy messages", "Clear messages", "Complete messages"], c: 0 },
-    { q: "For uncomfortable settings which of the following is correct?", ar: "بالنسبة للبيئات غير المريحة، أي مما يلي صحيح؟", o: ["Irrelevant", "Are not essentials", "Are barriers of communication", "Receiver can hear and concentrate"], c: 2 },
-    { q: "As regards upwards communication which is true?", ar: "بخصوص التواصل الصاعد، ما هو الصحيح؟", o: ["From below downward", "Nondirective", "Give information", "All the above"], c: 3 },
-    { q: "Which of the following is considered correct for the verbal communication?", ar: "أي مما يلي صحيح للتواصل اللفظي؟", o: ["Need open ended technique", "Close ended technique (=direct question)", "Open and close ended technique", "Not relevant"], c: 1 },
-    { q: "Which of the following is correct for nonverbal communication?", ar: "أي مما يلي صحيح للتواصل غير اللفظي؟", o: ["Direct questioning", "Need words", "Person has less conscious control over nonverbal behavior", "Person has good conscious control"], c: 2 },
-    { q: "Which of the following is the characteristic of nonverbal communication?", ar: "من خصائص التواصل غير اللفظي:", o: ["Need good observation", "More reliable than verbal communication", "Need interpretation", "All the above"], c: 3 },
-    { q: "Which of the following is the disadvantage of individual approach teaching?", ar: "من عيوب النهج الفردي في التعليم:", o: ["High cost", "Economic", "Positive attitude development", "Low cost"], c: 0 },
-    { q: "Which of the following is correct for the characteristic of good communicator channel?", ar: "ما هي خصائص قناة التواصل الجيدة؟", o: ["Appropriate", "Affordable", "Appealing", "All of the above"], c: 3 },
-    { q: "As regards communication, feedback should not be.", ar: "في التواصل، يجب ألا تكون التغذية الراجعة:", o: ["Absent feedback", "Relevant feedback", "Good feedback", "Complete direct feedback"], c: 0 },
-    { q: "Responsibility of sender is", ar: "مسؤولية المرسل هي:", o: ["Discourage his receivers", "Encourage the receivers", "Has no relation to his team", "Work alone"], c: 1 },
-    { q: "Which of the following is the definition of health education?", ar: "ما هو تعريف التثقيف الصحي؟", o: ["Learning experience designed to facilitate voluntary action", "Un voluntary action", "It is force", "Unhealthy behavior"], c: 0 },
-    { q: "As regard the role of the teacher which of the following is not correct?", ar: "دور المعلم ليس من بينه:", o: ["Planner", "Clarifier", "Stimulator", "Volunteer"], c: 3 },
-    { q: "As regard nonverbal communication represents?", ar: "يمثل التواصل غير اللفظي حوالي:", o: ["90%", "80%", "70%", "10%"], c: 0 },
-    { q: "Which of the following is considered correct for verbal communication?", ar: "أي مما يلي صحيح للتواصل اللفظي؟", o: ["Need words to express emotions", "Active listening", "Direct questioning", "All of the above"], c: 3 },
-    { q: "Which of the following is the characteristic of nonverbal communication?", ar: "من خصائص التواصل غير اللفظي:", o: ["Easy communication", "NOT reliable than verbal", "Do not need observation", "Can be use with deaf and mute persons"], c: 3 }
+    { q: "As regards communication, barriers of messages include which of the following?", ar: "عوائق الرسائل في التواصل تشمل:", o: ["Easy messages", "Relevant messages", "Unclear messages", "Complete messages"], o_ar: ["رسائل سهلة", "رسائل ذات صلة", "رسائل غير واضحة", "رسائل كاملة"], c: 2, exp: "التفسير: الرسائل غير الواضحة (Unclear) تمنع وصول المعنى بشكل سليم وتعتبر عائقاً أساسياً." },
+    { q: "Which of the following is the definition of motivation?", ar: "أي مما يلي هو تعريف التحفيز؟", o: ["Internal force to act", "External force", "Both 1 and 4", "Motivation starts with need"], o_ar: ["قوة داخلية للعمل", "قوة خارجية", "كلاهما 1 و 4", "التحفيز يبدأ بالحاجة"], c: 2, exp: "التفسير: التحفيز هو قوة داخلية (Internal) وأيضاً عملية تبدأ بحاجة أو رؤية مستقبلية." },
+    { q: "As regards the role of the teacher, which of the following is not correct?", ar: "بخصوص دور المعلم، أي مما يلي غير صحيح؟", o: ["Planner", "Clarifier", "Stimulator", "Volunteer"], o_ar: ["مخطط", "موضح", "محفز", "متطوع"], c: 3, exp: "التفسير: المعلم مخطط وموضح ومحفز، لكن 'متطوع' ليس من الأدوار المهنية الأساسية." },
+    { q: "Group approach method of education includes which of the following?", ar: "نهج المجموعة في التعليم يشمل:", o: ["Television", "Home visit", "Lecture", "Internet"], o_ar: ["التلفزيون", "زيارة منزلية", "محاضرة", "الإنترنت"], c: 2, exp: "التفسير: المحاضرة هي الوسيلة التقليدية والأساسية لاستهداف المجموعات." },
+    { q: "As regards, Importance of motivation which of the following is not correct?", ar: "بخصوص أهمية التحفيز، ما هو غير الصحيح؟", o: ["Activate behavior", "Give direction", "Increase productivity", "Passive participation"], o_ar: ["تنشيط السلوك", "إعطاء توجيه", "زيادة الإنتاجية", "المشاركة السلبية"], c: 3, exp: "التفسير: التحفيز يهدف دائماً للمشاركة الفعالة، وليس السلبية." },
+    { q: "Which is correct for essentials of communication?", ar: "ما هو الصحيح لأساسيات التواصل؟", o: ["Do not react instantly in anger", "Go to the conclusion", "Interrupt the speaker", "Use medical terminology"], o_ar: ["عدم الرد الفوري بغضب", "القفز للنتائج", "مقاطعة المتحدث", "استخدام مصطلحات طبية"], c: 0, exp: "التفسير: التحكم في الانفعالات يضمن بقاء قنوات التواصل مفتوحة ومثمرة." },
+    { q: "Which of the following is considered correct for verbal communication?", ar: "أي مما يلي صحيح للتواصل اللفظي؟", o: ["Need words for emotions", "Active listening", "Direct questioning", "All of the above"], o_ar: ["كلمات للمشاعر", "استماع نشط", "أسئلة مباشرة", "كل ما سبق"], c: 3, exp: "التفسير: التواصل اللفظي يعتمد على الكلمات والأسئلة والقدرة على الاستماع بفعالية." },
+    { q: "Which of the following is the characteristic of nonverbal communication?", ar: "من خصائص التواصل غير اللفظي:", o: ["Easy communication", "More reliable than verbal", "Do not need observation", "Cannot be use with deaf"], o_ar: ["تواصل سهل", "أكثر موثوقية من اللفظي", "لا يحتاج ملاحظة", "لا يستخدم مع الصم"], c: 1, exp: "التفسير: لغة الجسد غالباً ما تكون صادقة ويصعب تزييفها، لذا هي أكثر موثوقية." },
+    { q: "Which is correct for an effective verbal communicator?", ar: "للمتواصل اللفظي الفعال:", o: ["Encourages empathically", "Depend on eye contact", "Depend on facial expression", "Depend on body language"], o_ar: ["يشجع بتعاطف", "يعتمد على البصر", "يعتمد على الوجه", "يعتمد على الجسد"], c: 0, exp: "التفسير: التعاطف في الكلام يبني الثقة ويجعل الطرف الآخر أكثر استجابة." },
+    { q: "Which of the following are levels of communication?", ar: "ما هي مستويات التواصل؟", o: ["Downwards", "Upwards", "Horizontal", "All the above"], o_ar: ["نازل", "صاعد", "أفقي", "كل ما سبق"], c: 3, exp: "التفسير: هذه هي المسارات الثلاثة لتدفق المعلومات داخل أي منظومة." },
+    { q: "Which of the following are correct for nonverbal communication?", ar: "ما الصحيح للتواصل غير اللفظي؟", o: ["Use body language", "Facial expression", "Cannot use words", "All the above"], o_ar: ["لغة الجسد", "تعابير الوجه", "عدم استخدام الكلمات", "كل ما سبق"], c: 3, exp: "التفسير: التواصل غير اللفظي هو كل تعبير يتم بدون نطق كلمات." },
+    { q: "Risk factors that cause health education problem include:", ar: "عوامل خطر تسبب مشاكل في التثقيف الصحي:", o: ["Good staff training", "Interaction time", "Good interest", "Lack staff training"], o_ar: ["تدريب جيد", "وقت تفاعل", "اهتمام جيد", "نقص تدريب الموظفين"], c: 3, exp: "التفسير: الكادر غير المدرب لا يستطيع إيصال المعلومات الصحية بشكل صحيح." },
+    { q: "Group approach of health education include which of the following?", ar: "نهج المجموعة يشمل:", o: ["Internet", "Lectures and workshops", "Home visit", "Television"], o_ar: ["الإنترنت", "المحاضرات والورش", "زيارة منزلية", "التلفزيون"], c: 1, exp: "التفسير: ورش العمل هي البيئة المثالية للتعليم الجماعي التفاعلي." },
+    { q: "Which of the following are the advantages of group teaching?", ar: "مزايا التعليم الجماعي:", o: ["Small group only", "Economic and positive", "High cost", "Lack of sharing"], o_ar: ["مجموعات صغيرة", "اقتصادي وإيجابي", "تكلفة عالية", "نقص المشاركة"], c: 1, exp: "التفسير: التعليم الجماعي يوفر الجهد والمال ويحفز المشاركين." },
+    { q: "As regards, importance of motivation which of the following is not correct?", ar: "أهمية التحفيز.. ما غير الصحيح؟", o: ["Intrinsic force", "Give direction", "Increase productivity", "Extrinsic force"], o_ar: ["قوة داخلية", "إعطاء توجيه", "زيادة الإنتاجية", "قوة خارجية (فقط)"], c: 3, exp: "التفسير: التحفيز الجوهري هو الأهم؛ الاعتماد على القوة الخارجية فقط لا يضمن الاستمرارية." },
+    { q: "....... defined as two way process involving passing messages?", ar: "عملية ثنائية الاتجاه لنقل الرسائل:", o: ["Motivation", "Communication", "Code of ethics", "Learning"], o_ar: ["التحفيز", "التواصل", "ميثاق الأخلاق", "التعلم"], c: 1, exp: "التفسير: التواصل هو الرابط بين المرسل والمستقبل." },
+    { q: "Which of the following is considered correct for nonverbal communication?", ar: "ما الصحيح للتواصل غير اللفظي؟", o: ["Words for emotions", "Observation and understanding", "Direct questioning", "Need voice"], o_ar: ["كلمات للمشاعر", "الملاحظة والفهم", "أسئلة مباشرة", "صوت"], c: 1, exp: "التفسير: الملاحظة البصرية هي مفتاح فهم لغة الجسد." },
+    { q: "Which of the following is the characteristic of nonverbal communication?", ar: "من خصائص التواصل غير اللفظي:", o: ["Easy communication", "Non reliable", "No observation", "Use body language"], o_ar: ["سهل", "غير موثوق", "لا ملاحظة", "استخدام لغة الجسد"], c: 3, exp: "التفسير: لغة الجسد هي العنصر الأساسي في التواصل غير اللفظي." },
+    { q: "Which is correct for an effective verbal communicator?", ar: "للمتواصل اللفظي الفعال:", o: ["Direct clear questioning", "Eye contact", "Facial expression", "Body language"], o_ar: ["أسئلة مباشرة واضحة", "اتصال بصري", "تعابير وجه", "لغة جسد"], c: 0, exp: "التفسير: السؤال الواضح يضمن الحصول على إجابة دقيقة ومفيدة." },
+    { q: "Which of the following is a type of communication?", ar: "نوع من أنواع التواصل:", o: ["Downwards", "Upwards", "Horizontal", "All the above"], o_ar: ["نازل", "صاعد", "أفقي", "كل ما سبق"], c: 3, exp: "التفسير: جميع هذه الاتجاهات تمثل مستويات التواصل الإداري." },
+    { q: "Which of the following is not correct about the characteristic of good communicator channel?", ar: "ما ليس من صفات القناة الجيدة؟", o: ["Appropriate", "Affordable", "Appealing", "Non appropriate channel"], o_ar: ["مناسبة", "ميسورة", "جذابة", "غير مناسبة"], c: 3, exp: "التفسير: القناة يجب أن تكون ملائمة، لذا 'غير مناسبة' خيار مرفوض." },
+    { q: "An effective verbal communicator include:", ar: "المتواصل اللفظي الفعال يتضمن:", o: ["Clarifies, listen, and repeats", "Relaxes", "Open up", "Eye contact"], o_ar: ["يوضح ويسمع ويكرر", "يسترخي", "ينفتح", "بصر"], c: 0, exp: "التفسير: التوضيح والاستماع النشط يمنعان حدوث سوء الفهم." },
+    { q: "Which of the following are the types of communication?", ar: "ما هي أنواع التواصل؟", o: ["Verbal only", "Nonverbal only", "Intermediate", "Verbal and nonverbal"], o_ar: ["لفظي فقط", "غير لفظي فقط", "متوسط", "لفظي وغير لفظي"], c: 3, exp: "التفسير: الإنسان يتواصل بالكلمات وبالجسد في آن واحد." },
+    { q: "Which of the following are correct for verbal communication?", ar: "ما الصحيح للتواصل اللفظي؟", o: ["Use body language", "Use words", "Facial expression", "Cannot use words"], o_ar: ["لغة جسد", "استخدام الكلمات", "تعابير وجه", "لا كلمات"], c: 1, exp: "التفسير: التواصل اللفظي يعتمد كلياً على استخدام 'الكلمات'." },
+    { q: "Which of the following is not the level of communication?", ar: "ما ليس مستوى من مستويات التواصل؟", o: ["Downward", "Upwards", "Lateral", "Vertical"], o_ar: ["نازل", "صاعد", "جانبي", "رأسي"], c: 3, exp: "التفسير: التواصل الرأسي مسمى عام للصاعد والنازل." },
+    { q: "Which of the following are characters of a good sender message?", ar: "من صفات المرسل الجيد:", o: ["Choose appropriate channel", "Be interested", "Both 1 and 2", "Lack interest"], o_ar: ["اختيار قناة مناسبة", "الاهتمام", "كلاهما 1 و 2", "نقص اهتمام"], c: 2, exp: "التفسير: اختيار الوسيلة المناسبة والاهتمام بالمحتوى يضمنان وصول الرسالة." },
+    { q: "....... is the person to whom messages is directed.", ar: "الشخص الموجه إليه الرسالة:", o: ["Sender", "Receiver", "Channel", "Messages"], o_ar: ["المرسل", "المستقبل", "القناة", "الرسالة"], c: 1, exp: "التفسير: المستقبل هو الشخص الذي يفك شفرة الرسالة ويفهمها." },
+    { q: "..... is the final stage that the receiver reply to the sender", ar: "المرحلة النهائية لرد المستقبل:", o: ["Sending", "Communication", "Feedback", "Receiving"], o_ar: ["إرسال", "تواصل", "تغذية راجعة", "استقبال"], c: 2, exp: "التفسير: التغذية الراجعة هي الدليل على اكتمال حلقة التواصل." },
+    { q: "As regards nonverbal communication advantages, which is correct?", ar: "من مزايا التواصل غير اللفظي:", o: ["Need words", "No understanding needed", "More reliable than verbal", "Need high voice"], o_ar: ["كلمات", "لا فهم", "أكثر موثوقية", "صوت عالٍ"], c: 2, exp: "التفسير: لغة الجسد تعطي انطباعاً أكثر صدقاً عن المشاعر." },
+    { q: "All the following are requirements of effective communication except:", ar: "متطلبات التواصل الفعال ما عدا:", o: ["Clear messages", "Relevant messages", "Meaningful messages", "Non relevant messages"], o_ar: ["واضحة", "ذات صلة", "هادفة", "غير ذات صلة"], c: 3, exp: "التفسير: الرسائل غير ذات الصلة تشتت الانتباه وتضيع الوقت." },
+    { q: "Criteria of effective nonverbal communicator include:", ar: "معايير المتواصل غير اللفظي الفعال:", o: ["Use clear voice", "Establish eye contact", "Use words", "Use meaningful speech"], o_ar: ["صوت واضح", "اتصال بصري", "كلمات", "كلام هادف"], c: 1, exp: "التفسير: الاتصال البصري يظهر الثقة والاهتمام والتركيز." },
+    { q: "..... is considered as a barrier of communication:", ar: "يعتبر عائقاً للتواصل:", o: ["Proper channel", "Improper channel", "Good channel", "Relevant channel"], o_ar: ["قناة صحيحة", "قناة غير صحيحة", "قناة جيدة", "قناة مناسبة"], c: 1, exp: "التفسير: القناة غير الصحيحة تمنع وصول الرسالة بوضوح." },
+    { q: "Teaching is defined as.......", ar: "يعرف التدريس بأنه:", o: ["Interaction to bring changes in behavior", "Interaction between learners", "Interaction between groups", "Interaction between clients"], o_ar: ["تفاعل لتغيير السلوك", "تفاعل المتعلمين", "تفاعل المجموعات", "تفاعل العملاء"], c: 0, exp: "التفسير: الهدف الأساسي للتعليم هو إحداث تغيير إيجابي في السلوك." },
+    { q: "As regard rules of motivation which of the following is correct?", ar: "من قواعد التحفيز الصحيحة:", o: ["Do not finish what you start", "Do not socialize", "Take risk and set a major goal", "Do not learn how to learn"], o_ar: ["لا تنهي ما بدأت", "لا تختلط", "خاطر وضع هدفاً كبيراً", "لا تتعلم"], c: 2, exp: "التفسير: الطموح والمخاطرة هما المحركان للتحفيز الذاتي." },
+    { q: "Which of the following is not a barrier of communication?", ar: "ما ليس من عوائق التواصل؟", o: ["Lack of interest", "Good language use", "Anxiety", "Impaired channels"], o_ar: ["نقص الاهتمام", "لغة جيدة", "قلق", "قنوات معطلة"], c: 1, exp: "التفسير: استخدام لغة سليمة هو جسر للنجاح وليس عائقاً." },
+    { q: "Which of the following are considered barriers of messages?", ar: "عوائق الرسائل تشمل:", o: ["Difficult and irrelevant", "Very easy", "Clear", "Complete"], o_ar: ["صعبة وغير ذات صلة", "سهلة جداً", "واضحة", "كاملة"], c: 0, exp: "التفسير: الرسالة الصعبة تحبط المستقبل وتجعله يتوقف عن الاستماع." },
+    { q: "For uncomfortable settings which of the following is correct?", ar: "البيئة غير المريحة:", o: ["Irrelevant", "Not essentials", "Are barriers of communication", "Help to concentrate"], o_ar: ["غير مهمة", "غير أساسية", "عائق للتواصل", "تساعد على التركيز"], c: 2, exp: "التفسير: المكان غير المريح (ضوضاء، حرارة) يشتت الذهن." },
+    { q: "As regards upwards communication which is true?", ar: "بخصوص التواصل الصاعد:", o: ["From below", "Nondirective", "Give information", "All the above"], o_ar: ["من الأسفل", "غير توجيهي", "إعطاء معلومات", "كل ما سبق"], c: 3, exp: "التفسير: التواصل الصاعد ينقل التقارير من الموظفين للإدارة العليا." },
+    { q: "Which of the following is considered correct for the verbal communication?", ar: "الصحيح للتواصل اللفظي:", o: ["Open ended", "Close ended technique", "Open and close ended", "Not relevant"], o_ar: ["مفتوحة", "أسئلة مغلقة", "مفتوحة ومغلقة", "غير مهم"], c: 1, exp: "التفسير: التقنيات اللفظية تستخدم الأسئلة المغلقة للحصول على حقائق محددة." },
+    { q: "Which of the following is correct for nonverbal communication?", ar: "الصحيح للتواصل غير اللفظي:", o: ["Direct questioning", "Need words", "Less conscious control over behavior", "Good conscious control"], o_ar: ["أسئلة مباشرة", "كلمات", "تحكم واعي أقل", "تحكم واعي جيد"], c: 2, exp: "التفسير: حركات الجسد العفوية تصدر بدون تفكير واعي مسبق." },
+    { q: "Which of the following is the characteristic of nonverbal communication?", ar: "من خصائص التواصل غير اللفظي:", o: ["Need good observation", "More reliable than verbal", "Need interpretation", "All the above"], o_ar: ["تحتاج ملاحظة", "أكثر موثوقية", "تحتاج تفسير", "كل ما سبق"], c: 3, exp: "التفسير: فهم الإيماءات يتطلب دقة ملاحظة وقدرة على التفسير." },
+    { q: "Which of the following is the disadvantage of individual approach?", ar: "عيب النهج الفردي:", o: ["High cost", "Economic", "Positive attitude", "Low cost"], o_ar: ["تكلفة عالية", "اقتصادي", "إيجابي", "تكلفة منخفضة"], c: 0, exp: "التفسير: التعليم الفردي مكلف لأنه يخصص وقتاً كبيراً لشخص واحد." },
+    { q: "Which of the following is correct for the characteristic of good channel?", ar: "صفات القناة الجيدة:", o: ["Appropriate", "Affordable", "Appealing", "All of the above"], o_ar: ["مناسبة", "ميسورة", "جذابة", "كل ما سبق"], c: 3, exp: "التفسير: القناة المثالية تجمع بين الملاءمة والتكلفة البسيطة والجذب." },
+    { q: "As regards communication, feedback should not be.", ar: "التغذية الراجعة يجب ألا تكون:", o: ["Absent feedback", "Relevant", "Good", "Complete direct"], o_ar: ["غائبة", "ذات صلة", "جيدة", "كاملة"], c: 0, exp: "التفسير: غياب التغذية الراجعة يعني فشل التواصل في تحقيق هدفه." },
+    { q: "Responsibility of sender is", ar: "مسؤولية المرسل هي:", o: ["Discourage receivers", "Encourage the receivers", "No relation to team", "Work alone"], o_ar: ["إحباط المستقبلين", "تشجيعهم", "لا علاقة بالفريق", "العمل وحده"], c: 1, exp: "التفسير: دور المرسل هو تحفيز المستقبل لضمان تفاعله." },
+    { q: "Which of the following is the definition of health education?", ar: "تعريف التثقيف الصحي:", o: ["Learning to facilitate voluntary action", "Unvoluntary action", "It is force", "Unhealthy behavior"], o_ar: ["تسهيل العمل التطوعي", "غير تطوعي", "إجبار", "سلوك غير صحي"], c: 0, exp: "التفسير: التثقيف الصحي يعتمد على الإقناع لتغيير السلوك طوعياً." },
+    { q: "As regard the role of the teacher which of the following is not correct?", ar: "ليس من أدوار المعلم:", o: ["Planner", "Clarifier", "Stimulator", "Volunteer"], o_ar: ["مخطط", "موضح", "محفز", "متطوع"], c: 3, exp: "التفسير: التطوع ليس جزءاً من المهام الوظيفية المهنية الأساسية للمعلم." },
+    { q: "As regard nonverbal communication represents?", ar: "يمثل التواصل غير اللفظي:", o: ["90%", "80%", "70%", "10%"], o_ar: ["90%", "80%", "70%", "10%"], c: 0, exp: "التفسير: الأبحاث تؤكد أن الغالبية العظمى من رسائلنا غير لفظية." },
+    { q: "Which of the following is considered correct for verbal communication?", ar: "الصحيح للتواصل اللفظي:", o: ["Need words for emotions", "Active listening", "Direct questioning", "All of the above"], o_ar: ["كلمات للمشاعر", "استماع نشط", "أسئلة مباشرة", "كل ما سبق"], c: 3, exp: "التفسير: التواصل اللفظي يشمل كل ما يتعلق بالكلمات والفهم." },
+    { q: "Which of the following is the characteristic of nonverbal communication?", ar: "من خصائص التواصل غير اللفظي:", o: ["Easy communication", "NOT reliable", "No observation", "Can be use with deaf"], o_ar: ["سهل", "غير موثوق", "لا ملاحظة", "يستخدم مع الصم"], c: 3, exp: "التفسير: لغة الإشارة والحركات هي الوسيلة الأساسية للتواصل مع الصم." }
 ];
 
-let stats = { answered: 0, correct: 0, wrong: 0 };
+let stats = { answered: 0, correct: 0 };
 
 function buildQuiz() {
     const container = document.getElementById("quiz-container");
-    document.getElementById("totalQs").innerText = questions.length;
     container.innerHTML = "";
     
     questions.forEach((item, i) => {
         const card = document.createElement("div");
         card.className = "quiz-card";
-        card.id = `card-${i}`;
         card.innerHTML = `
             <div class="q-number">${i+1}</div>
             <div class="question-text">${item.q}</div>
             <div class="translation-text">${item.ar}</div>
             <div class="options-list" id="opt-box-${i}"></div>
+            <div class="explanation-box" id="exp-${i}">${item.exp}</div>
         `;
         container.appendChild(card);
         
         item.o.forEach((opt, j) => {
             const btn = document.createElement("button");
             btn.className = "option-btn";
-            btn.innerText = opt;
+            btn.innerHTML = `${opt} <span class="opt-ar">${item.o_ar[j]}</span>`;
             btn.onclick = () => {
                 const btns = card.querySelectorAll(".option-btn");
                 if(btns[0].disabled) return;
-                
                 btns.forEach(b => b.disabled = true);
+                document.getElementById(`exp-${i}`).style.display = "block";
                 stats.answered++;
-                
                 if(j === item.c) {
                     btn.classList.add("correct-opt");
                     stats.correct++;
                 } else {
                     btn.classList.add("wrong-opt");
                     btns[item.c].classList.add("correct-opt");
-                    stats.wrong++;
                 }
                 updateStatsUI();
             };
@@ -194,16 +180,8 @@ function buildQuiz() {
 function updateStatsUI() {
     document.getElementById("answeredCount").innerText = stats.answered;
     document.getElementById("correctCount").innerText = stats.correct;
-    document.getElementById("wrongCount").innerText = stats.wrong;
-}
-
-function searchQuestions() {
-    let input = document.getElementById('searchInput').value.toLowerCase();
-    let cards = document.getElementsByClassName('quiz-card');
-    for (let i = 0; i < cards.length; i++) {
-        let text = cards[i].innerText.toLowerCase();
-        cards[i].style.display = text.includes(input) ? "block" : "none";
-    }
+    let rate = stats.answered > 0 ? Math.round((stats.correct / stats.answered) * 100) : 0;
+    document.getElementById("rate").innerText = rate + "%";
 }
 
 window.onload = buildQuiz;
